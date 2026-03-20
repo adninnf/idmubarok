@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Selamat Hari Raya Idul Fitri</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Poppins', 'Raleway', sans-serif;
+      position: relative;
+      background: linear-gradient(135deg, #0a2f2a, #1e6b55, #0e4238);
+      color: #fef9e6;
+    }
+
+    canvas#container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Konten Utama */
+    .content {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      padding: 30px 25px;
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 60px;
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(-40%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+    }
+
+    /* Jam */
+    #jam {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      background: rgba(0, 0, 0, 0.6);
+      display: inline-block;
+      padding: 8px 28px;
+      border-radius: 60px;
+      margin-bottom: 20px;
+      font-family: monospace;
+      backdrop-filter: blur(4px);
+      color: #ffefb9;
+      border: 1px solid #f7d44a;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .lead {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #ffecb3;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Intro dengan efek gradasi */
+    .intro {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFE6A7, #FFB347, #FF8C42);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: none;
+      margin: 20px 0 15px;
+      letter-spacing: 1px;
+    }
+
+    /* Typewrite effect */
+    .typewrite {
+      font-size: 1.6rem;
+      font-weight: 600;
+      background: linear-gradient(120deg, #FFF5CF, #FFE6A7);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      display: inline-block;
+      margin: 15px 0;
+      padding: 8px 20px;
+      border-radius: 50px;
+    }
+    .typewrite .wrap {
+      border-right: 0.08em solid #FFD966;
+      padding-right: 5px;
+    }
+
+    /* Kata Mutiara Slider */
+    .wisdom-slider {
+      margin: 20px auto;
+      max-width: 85%;
+      background: rgba(255, 245, 200, 0.2);
+      border-radius: 50px;
+      padding: 15px 25px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+    .wisdom-text {
+      font-size: 1rem;
+      font-style: italic;
+      color: #FFF5E0;
+      margin: 0;
+      transition: opacity 0.5s ease;
+      line-height: 1.5;
+    }
+    .wisdom-author {
+      font-size: 0.85rem;
+      color: #FFD966;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    /* Blockquote */
+    .blockquote {
+      margin-top: 25px;
+      background: rgba(255, 245, 200, 0.15);
+      border-left: 5px solid #FFD966;
+      padding: 20px 25px;
+      border-radius: 35px;
+      max-width: 85%;
+      margin-left: auto;
+      margin-right: auto;
+      transition: all 0.3s ease;
+    }
+    .quote {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: #fff9e8;
+    }
+    .blockquote-footer {
+      color: #FFE6A7;
+      font-size: 0.9rem;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    /* Footer - Tombol Musik di luar border */
+    .music-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      text-align: center;
+      padding: 15px 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      pointer-events: auto;
+    }
+    .music-control {
+      display: inline-flex;
+      gap: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      padding: 10px 25px;
+      border-radius: 60px;
+      border: 1px solid rgba(255, 215, 0, 0.6);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+    .music-btn {
+      background: linear-gradient(135deg, #FFD966, #FFB347);
+      border: none;
+      color: #1f4e3c;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 8px 22px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Poppins', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .music-btn:hover {
+      background: linear-gradient(135deg, #FFB347, #FF9F2E);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .music-btn:active {
+      transform: translateY(0);
+    }
+    .status-text {
+      color: #FFECB3;
+      font-size: 0.85rem;
+      align-self: center;
+      margin-left: 8px;
+      font-weight: 500;
+    }
+
+    /* Ketupat Animasi */
+    .ketupat {
+      position: fixed;
+      bottom: 90px;
+      left: 20px;
+      font-size: 3rem;
+      animation: sway 2s ease-in-out infinite;
+      z-index: 30;
+      filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+      cursor: pointer;
+      transition: transform 0.3s;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      padding: 5px;
+      backdrop-filter: blur(4px);
+    }
+    .ketupat:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+    @keyframes sway {
+      0%, 100% {
+        transform: rotate(-8deg);
+      }
+      50% {
+        transform: rotate(8deg);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .content {
+        width: 92%;
+        padding: 20px 18px;
+        border-radius: 40px;
+      }
+      .intro {
+        font-size: 1.2rem;
+      }
+      .typewrite {
+        font-size: 1rem;
+        padding: 5px 12px;
+      }
+      .wisdom-text {
+        font-size: 0.85rem;
+      }
+      .quote {
+        font-size: 0.85rem;
+      }
+      .blockquote {
+        max-width: 95%;
+        padding: 15px;
+      }
+      #jam {
+        font-size: 1.3rem;
+        padding: 5px 18px;
+      }
+      .lead {
+        font-size: 1rem;
+      }
+      .ketupat {
+        font-size: 2rem;
+        bottom: 80px;
+        left: 12px;
+      }
+      .music-control {
+        padding: 6px 18px;
+        gap: 10px;
+      }
+      .music-btn {
+        padding: 5px 15px;
+        font-size: 0.85rem;
+      }
+      .status-text {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .intro {
+        font-size: 2.5rem;
+      }
+      .typewrite {
+        font-size: 2rem;
+      }
+      .quote {
+        font-size: 1.2rem;
+      }
+      .wisdom-text {
+        font-size: 1.1rem;
+      }
+      #jam {
+        font-size: 2.5rem;
+      }
+      .lead {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Efek tambahan */
+    @keyframes glow {
+      0%, 100% {
+        text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+      }
+      50% {
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+      }
+    }
+    
+    .intro, .typewrite {
+      animation: glow 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="container"></canvas>
+
+  <!-- Konten Utama -->
+  <div class="content">
+    <div id="jam"></div>
+    <p class="lead mt-2">بسم الله الرحمن الرحيم</p>
+    <div class="intro">✨ Selamat Hari Raya Idul Fitri 1 Syawal 1447 H ✨</div>
+    
+    <a class="typewrite" data-period="2000" data-type='[ "🌙 Saya Adnin Nurfillah Mengucapkan 🌙", "🤲 Minal Aidin Wal Faidzin 🤲", "🍃 Mohon Maaf Lahir dan Batin 🍃"]'>
+      <span class="wrap"></span>
+    </a>
+
+    <!-- Slider Kata Mutiara -->
+    <div class="wisdom-slider" id="wisdomSlider">
+      <p class="wisdom-text" id="wisdomText">"Maafkanlah segala khilaf, sucikan hati dengan fitrah."</p>
+      <div class="wisdom-author" id="wisdomAuthor">— Ucapan Lebaran</div>
+    </div>
+
+    <blockquote class="blockquote mt-3">
+      <p class="quote mb-0">"Hari ini kurendahkan diriku, kulupakan kesombonganku, kutundukkan kepalaku, lalu kududuk terpaku di depan jendela hatimu, menanti pintu maafmu, terbuka untukku. Selamat Hari Raya Idul Fitri, Mohon maaf lahir dan batin."</p>
+      <footer class="blockquote-footer">— Anonim</footer>
+    </blockquote>
+  </div>
+
+  <!-- Animasi Ketupat -->
+  <div class="ketupat" id="ketupatEmoji">
+    🥟✨
+  </div>
+
+  <!-- Footer Tombol Musik (di luar border, paling bawah) -->
+  <div class="music-footer">
+    <div class="music-control">
+      <button id="playMusicBtn" class="music-btn">
+        <i class="fas fa-play"></i> Putar Lagu
+      </button>
+      <button id="stopMusicBtn" class="music-btn">
+        <i class="fas fa-stop"></i> Hentikan
+      </button>
+      <span id="musicStatus" class="status-text">🎵 Siap</span>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
+  <script>
+    // ======================== TYPEWRITER ========================
+    var TxtType = function(el, toRotate, period) {
+      this.toRotate = toRotate;
+      this.el = el;
+      this.loopNum = 0;
+      this.period = parseInt(period, 10) || 2000;
+      this.txt = '';
+      this.tick();
+      this.isDeleting = false;
+    };
+    TxtType.prototype.tick = function() {
+      var i = this.loopNum % this.toRotate.length;
+      var fullTxt = this.toRotate[i];
+      if (this.isDeleting) {
+        this.txt = fullTxt.substring(0, this.txt.length - 1);
+      } else {
+        this.txt = fullTxt.substring(0, this.txt.length + 1);
+      }
+      this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+      var that = this;
+      var delta = 200 - Math.random() * 100;
+      if (this.isDeleting) delta /= 2;
+      if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period;
+        this.isDeleting = true;
+      } else if (this.isDeleting && this.txt === '') {
+        this.isDeleting = false;
+        this.loopNum++;
+        delta = 500;
+      }
+      setTimeout(function() {
+        that.tick();
+      }, delta);
+    };
+    
+    window.addEventListener('load', function() {
+      var elements = document.getElementsByClassName('typewrite');
+      for (var i = 0; i < elements.length; i++) {
+        var toRotate = elements[i].getAttribute('data-type');
+        var period = elements[i].getAttribute('data-period');
+        if (toRotate) {
+          new TxtType(elements[i], JSON.parse(toRotate), period);
+        }
+      }
+      var css = document.createElement("style");
+      css.type = "text/css";
+      css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #FFD966}";
+      document.body.appendChild(css);
+    });
+
+    // ======================== JAM DIGITAL ========================
+    function tampilJam() {
+      var a_p = "";
+      var hari = new Date();
+      var jam_skr = hari.getHours();
+      var menit_skr = hari.getMinutes();
+      var detik_skr = hari.getSeconds();
+      a_p = jam_skr < 12 ? "AM" : "PM";
+      if (jam_skr == 0) jam_skr = 12;
+      if (jam_skr > 12) jam_skr = jam_skr - 12;
+      jam_skr = cekJam(jam_skr);
+      menit_skr = cekJam(menit_skr);
+      detik_skr = cekJam(detik_skr);
+      document.getElementById('jam').innerHTML = jam_skr + ":" + menit_skr + ":" + detik_skr + " " + a_p;
+    }
+    
+    function cekJam(i) {
+      return i < 10 ? "0" + i : i;
+    }
+    
+    setInterval(tampilJam, 100);
+
+    // ======================== KATA MUTIARA SLIDER ========================
+    const wisdomList = [
+      { text: "Taqabbalallahu minna wa minkum, semoga Allah menerima amal ibadah kita.", author: "— Doa Lebaran" },
+      { text: "Kembali ke fitri, sucikan hati, raih cinta Ilahi.", author: "— Mutiara Hati" },
+      { text: "Bukan pakaian baru yang menandai Lebaran, tapi hati yang bersih dari segala dendam.", author: "— Bijak" },
+      { text: "Memaafkan adalah kekuatan, meminta maaf adalah keberanian.", author: "— Kata Bijak" },
+      { text: "Lebaran mengajarkan kita untuk menjadi manusia yang lebih rendah hati.", author: "— Renungan" },
+      { text: "Semoga silaturahmi kita tetap terjalin, bukan hanya di hari raya.", author: "— Harapan" },
+      { text: "Mohon maaf lahir batin, semoga kita semua diberikan keberkahan.", author: "— Ucapan" },
+      { text: "Fitri berarti suci, mari sucikan hati dan lisan.", author: "— Nasihat" },
+      { text: "Tangan di atas lebih baik dari tangan di bawah, berbagilah di hari kemenangan.", author: "— Hadits" },
+      { text: "Kemenangan sejati adalah menahan amarah dan memaafkan kesalahan.", author: "— Hikmah" }
+    ];
+    
+    let wisdomIndex = 0;
+    const wisdomTextEl = document.getElementById('wisdomText');
+    const wisdomAuthorEl = document.getElementById('wisdomAuthor');
+    
+    function rotateWisdom() {
+      wisdomIndex = (wisdomIndex + 1) % wisdomList.length;
+      wisdomTextEl.style.opacity = '0';
+      wisdomAuthorEl.style.opacity = '0';
+      setTimeout(() => {
+        wisdomTextEl.innerText = `"${wisdomList[wisdomIndex].text}"`;
+        wisdomAuthorEl.innerText = wisdomList[wisdomIndex].author;
+        wisdomTextEl.style.opacity = '1';
+        wisdomAuthorEl.style.opacity = '1';
+      }, 300);
+    }
+    
+    setInterval(rotateWisdom, 7000);
+
+    // ======================== PARTIKEL + BINTANG JATUH ========================
+    var canvas = document.getElementById('container');
+    var ctx = canvas.getContext('2d');
+    var ww = window.innerWidth, wh = window.innerHeight;
+    canvas.width = ww;
+    canvas.height = wh;
+    var particles = [];
+    var fallingStars = [];
+    var partCount = 100;
+    
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    
+    function Particle() {
+      this.color = `rgba(255, 235, 160, ${0.3 + Math.random() * 0.6})`;
+      this.x = random(0, ww);
+      this.y = random(0, wh);
+      this.vx = random(-0.3, 0.3);
+      this.vy = random(-0.3, 0.3);
+      this.radius = random(2, 4);
+      this.update = function() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x > ww) this.x = 0;
+        if (this.x < 0) this.x = ww;
+        if (this.y > wh) this.y = 0;
+        if (this.y < 0) this.y = wh;
+      };
+      this.draw = function() {
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+      };
+    }
+    
+    function FallingStar() {
+      this.x = random(0, ww);
+      this.y = -10;
+      this.size = random(2, 6);
+      this.speed = random(5, 12);
+      this.color = `rgba(255, 215, 100, ${random(0.5, 0.9)})`;
+      this.update = function() {
+        this.y += this.speed;
+        this.x += random(-1, 1);
+        if (this.y > wh + 50) {
+          this.y = -20;
+          this.x = random(0, ww);
+          this.speed = random(5, 12);
+        }
+      };
+      this.draw = function() {
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        // efek ekor
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255, 200, 80, 0.4)`;
+        ctx.arc(this.x - this.speed * 0.8, this.y - this.speed * 0.5, this.size * 0.7, 0, Math.PI * 2);
+        ctx.fill();
+      };
+    }
+    
+    function initParticles() {
+      particles = [];
+      fallingStars = [];
+      for (let i = 0; i < partCount; i++) particles.push(new Particle());
+      for (let i = 0; i < 12; i++) fallingStars.push(new FallingStar());
+    }
+    
+    function animateCanvas() {
+      ctx.clearRect(0, 0, ww, wh);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      fallingStars.forEach(s => {
+        s.update();
+        s.draw();
+      });
+      requestAnimationFrame(animateCanvas);
+    }
+    
+    initParticles();
+    animateCanvas();
+    
+    $(window).on('resize', function() {
+      ww = window.innerWidth;
+      wh = window.innerHeight;
+      canvas.width = ww;
+      canvas.height = wh;
+      initParticles();
+    });
+
+    // ======================== MUSIK LEBARAN ========================
+    var lebaranAudio = new Audio("lebaran.mp3");
+    lebaranAudio.loop = true;
+    lebaranAudio.volume = 0.55;
+    
+    const playBtn = document.getElementById("playMusicBtn");
+    const stopBtn = document.getElementById("stopMusicBtn");
+    const statusSpan = document.getElementById("musicStatus");
+    
+    function playMusic() {
+      lebaranAudio.play().then(() => {
+        statusSpan.innerHTML = "🎵 Lagu sedang diputar";
+        statusSpan.style.color = "#FFD966";
+      }).catch((err) => {
+        console.log("Error:", err);
+        statusSpan.innerHTML = "⚠️ Klik ulang untuk memutar";
+      });
+    }
+    
+    function stopMusic() {
+      lebaranAudio.pause();
+      lebaranAudio.currentTime = 0;
+      statusSpan.innerHTML = "⏹️ Musik dihentikan";
+      statusSpan.style.color = "#FFECB3";
+    }
+    
+    playBtn.addEventListener("click", playMusic);
+    stopBtn.addEventListener("click", stopMusic);
+    
+    lebaranAudio.addEventListener("error", (e) => {
+      console.error("File lebaran.mp3 tidak ditemukan");
+      statusSpan.innerHTML = "❌ File musik tidak ditemukan";
+      playBtn.disabled = true;
+      stopBtn.disabled = true;
+    });
+    
+    // Interaksi ketupat memberi ucapan tambahan
+    document.getElementById("ketupatEmoji").addEventListener("click", function() {
+      alert("🌙✨ Mohon maaf lahir dan batin, semoga kita semua dilimpahi berkah di hari yang fitri ✨🌙");
+    });
+  </script>
+</body>
+</html>
